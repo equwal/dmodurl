@@ -1,0 +1,3 @@
+#!/bin/sh
+SCRIPTFILE="$XDG_CONFIG_HOME"/dmodurl.sed
+echo "$1" | sed -f "$SCRIPTFILE"

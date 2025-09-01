@@ -1,0 +1,17 @@
+#!/bin/sh
+#
+# Requires rssurl
+#
+
+test -s $HOME/.dmenurc && . $HOME/.dmenurc
+PROMPT="url: "
+
+url="$(xclip -o | dmenu -p "$PROMPT")"
+
+newurl=$(rssurl "$url")
+url="$newurl"
+
+test -z "${url}" && exit
+
+#choice="$(echo "copy\nbrowse" | dmenu -p "$url -- choice: ")"
+echo "$url" | xclip -i -sel clip

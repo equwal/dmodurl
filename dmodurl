@@ -1,0 +1,24 @@
+#!/bin/sh
+#
+# Requires modurl
+#
+
+test -s $HOME/.dmenurc && . $HOME/.dmenurc
+PROMPT="url: "
+
+# Trying to show an interactive url list here somehow. Probably need to
+# use a DSL rather than a raw sed file in order to Do The Right Thing
+#URLLIST="$(sed 's:^s#::
+#s:\(#.*\)#.*$:\1:
+#s:' "$XDG_CONFIG_HOME"/dmodurl.sed)"
+
+url="$(xclip -o | dmenu -p "$PROMPT")"
+
+newurl=$(modurl "$url")
+url="$newurl"
+
+test -z "${url}" && exit
+
+choice="$(echo "copy\nbrowse" | dmenu -p "$url -- choice: ")"
+[ "$choice" = "copy" ]   && echo "$url" | xclip -i -sel clip
+[ "$choice" = "browse" ] && dbrowsel "$url"
